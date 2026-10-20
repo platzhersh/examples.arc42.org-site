@@ -1,0 +1,14 @@
+flowchart LR
+    User([User:<br/>developer / informatician])
+    App[openEHR Explorer<br/>desktop app]
+    CDR[(openEHR CDR<br/>EHRBase / Better /<br/>Ferro EHR / generic)]
+    GH[GitHub Releases<br/>updater + installers]
+    Apt[Aptabase<br/>opt-in analytics]
+    Site[openehr-explorer.dev<br/>website + docs]
+
+    User -->|browse, query, edit| App
+    App -->|openEHR REST, AQL| CDR
+    App -->|update check| GH
+    App -.->|opt-in usage events| Apt
+    User -->|download, read docs| Site
+    Site -->|links to| GH

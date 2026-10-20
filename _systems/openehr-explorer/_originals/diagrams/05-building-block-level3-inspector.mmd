@@ -1,0 +1,7 @@
+flowchart LR
+    C[Command module] -->|builder| S[send_instrumented]
+    S -->|reqwest| CDR[(CDR)]
+    CDR --> S
+    S -->|InstrumentedResponse| C
+    S -->|event: cdr-inspector-entry<br/>redacted + capped| IS[inspector store]
+    IS --> UI[RequestInspector.vue]
