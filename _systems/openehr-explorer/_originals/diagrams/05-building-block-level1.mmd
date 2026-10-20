@@ -1,0 +1,25 @@
+flowchart TB
+    subgraph Webview["Webview (Vue 3 + TypeScript)"]
+        Views[Views<br/>src/views]
+        Comps[Components<br/>src/components]
+        Stores[Pinia stores<br/>src/stores]
+        Lib[Libraries<br/>src/lib]
+    end
+    subgraph Core["Rust core (Tauri 2)"]
+        Cmds[Command modules<br/>src-tauri/src/commands]
+        Insp[inspector.rs]
+        Cred[credentials.rs]
+        Set[settings.rs]
+        Crash[crash_report.rs]
+        Lib2[lib.rs<br/>app setup, menu, plugins]
+    end
+    Views --> Comps
+    Views --> Stores
+    Stores -->|invoke| Cmds
+    Insp -.->|event| Stores
+    Cmds --> Insp
+    Cmds --> Cred
+    Cmds --> Set
+    Cmds -->|HTTPS| CDR[(CDR)]
+    Cred --> OS[(OS keychain /<br/>credentials.enc)]
+    Set --> FS[(config dir<br/>JSON files)]

@@ -1,0 +1,15 @@
+flowchart LR
+    subgraph Desktop["User workstation (macOS / Windows / Linux)"]
+        App[openEHR Explorer<br/>Rust core + webview]
+        KC[(OS keychain)]
+        Cfg[(~/.config/openehr-explorer/<br/>profiles.json, settings, saved queries,<br/>credentials.enc fallback)]
+        App --- KC
+        App --- Cfg
+    end
+    CDR[(Customer / local CDR<br/>EHRBase via docker-compose)]
+    GHR[GitHub Releases]
+    GHP[GitHub Pages<br/>website + Storybook]
+    Pkg[Homebrew / Scoop / WinGet /<br/>APT repo / AUR]
+    App -->|HTTPS| CDR
+    App -->|updater| GHR
+    Pkg -->|installs from| GHR

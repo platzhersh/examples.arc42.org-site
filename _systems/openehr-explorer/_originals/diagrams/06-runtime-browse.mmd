@@ -1,0 +1,20 @@
+sequenceDiagram
+    actor U as User
+    participant V as EhrBrowser.vue
+    participant S as ehr store
+    participant R as ehr.rs command
+    participant I as send_instrumented
+    participant C as CDR
+    participant P as inspector store
+
+    U->>V: open /ehrs/:ehrId
+    V->>S: loadCompositions(ehrId)
+    S->>R: invoke(composition/EHR listing command)
+    R->>R: load profile, resolve credentials, build URL (server_type)
+    R->>I: POST /query/aql (AQL listing)
+    I->>C: HTTP request
+    C-->>I: 200 JSON
+    I-->>P: event cdr-inspector-entry
+    I-->>R: InstrumentedResponse
+    R-->>S: Result<Vec<CompositionSummary>, String>
+    S-->>V: reactive state (or error)
